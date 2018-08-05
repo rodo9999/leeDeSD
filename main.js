@@ -21,31 +21,81 @@ function leeDeSD() {
   var fileName = 'myfile.txt';    // your file name
   // var data = 'Cualquier cosa.';   // your data, could be useful JSON.stringify to convert an object to JSON string
   alert("leeDeSD");
-  window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory + fileName, gotFile, fail);
+  // window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory + fileName, gotFile, fail);
+    window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory, function( directoryEntry ) {
+      directoryEntry.getFile(fileName, { create: false }, onGetFileSuccess, onFileError); 
+	  }, function( error ) { alert( "Error resolveLocalFileSystemURL: " + error ); } );
 }
 
 
-function fail(e) {
-	alert("FileSystem Error: " + e );
+function onGetFileSuccess(file) {
+  var reader = new FileReader();
+
+  reader.onloadend = function(e) {
+    console.log("Read end");
+    alert(e.target.result);
+  };
+  
+  reader.onloadstart = function(e) {
+    console.log("Read start");
+  };
+
+  reader.onloaderror = function(e) {
+    console.log("Read error: " + e.target.error.code);
+  };
+  
+  reader.readAsText(file);
 }
 
-function gotFile(fileEntry) {
-        alert("gotFile");
-	
-	fileEntry.file(function(file) {
-		var reader = new FileReader();
 
-		reader.onloadend = function(e) {
-			alert("Text is: "+this.result);
-		}
-
-		reader.readAsText(file);
-	});
-
+function onFileError(e) {
+  var msgText;
+  switch(e.code) {
+    case FileError.NOT_FOUND_ERR:
+      msgText = "File not found error.";
+      break;
+    case FileError.SECURITY_ERR:
+      msgText = "Security error.";
+      break;
+    case FileError.ABORT_ERR:
+      msgText = "Abort error.";
+      break;
+    case FileError.NOT_READABLE_ERR:
+      msgText = "Not readable error.";
+      break;
+    case FileError.ENCODING_ERR:
+      msgText = "Encoding error.";
+      break;
+    case FileError.NO_MODIFICATION_ALLOWED_ERR:
+      msgText = "No modification allowed.";
+      break;
+    case FileError.INVALID_STATE_ERR:
+      msgText = "Invalid state.";
+      break;
+    case FileError.SYNTAX_ERR:
+      msgText = "Syntax error.";
+      break;
+    case FileError.INVALID_MODIFICATION_ERR:
+      msgText = "Invalid modification.";
+      break;
+    case FileError.QUOTA_EXCEEDED_ERR:
+      msgText = "Quote exceeded.";
+      break;
+    case FileError.TYPE_MISMATCH_ERR:
+      msgText = "Type mismatch.";
+      break;
+    case FileError.PATH_EXISTS_ERR:
+      msgText = "Path exists error.";
+      break;
+    default:
+      msgText = "Unknown error.";
+  }
+  //Now tell the user what happened
+  alert("File Error: " + msgText );
 }
 
-// El resto es todo relleno
 
+// -----------------------------------------------
 
 function processDir(fileSystemType) {
   alert("processDir: " + fileSystemType);
@@ -207,51 +257,7 @@ function onFileReaderSuccess(file) {
   reader.readAsText(file);
 }
 
-function onFileError(e) {
-  var msgText;
-  switch(e.code) {
-    case FileError.NOT_FOUND_ERR:
-      msgText = "File not found error.";
-      break;
-    case FileError.SECURITY_ERR:
-      msgText = "Security error.";
-      break;
-    case FileError.ABORT_ERR:
-      msgText = "Abort error.";
-      break;
-    case FileError.NOT_READABLE_ERR:
-      msgText = "Not readable error.";
-      break;
-    case FileError.ENCODING_ERR:
-      msgText = "Encoding error.";
-      break;
-    case FileError.NO_MODIFICATION_ALLOWED_ERR:
-      msgText = "No modification allowed.";
-      break;
-    case FileError.INVALID_STATE_ERR:
-      msgText = "Invalid state.";
-      break;
-    case FileError.SYNTAX_ERR:
-      msgText = "Syntax error.";
-      break;
-    case FileError.INVALID_MODIFICATION_ERR:
-      msgText = "Invalid modification.";
-      break;
-    case FileError.QUOTA_EXCEEDED_ERR:
-      msgText = "Quote exceeded.";
-      break;
-    case FileError.TYPE_MISMATCH_ERR:
-      msgText = "Type mismatch.";
-      break;
-    case FileError.PATH_EXISTS_ERR:
-      msgText = "Path exists error.";
-      break;
-    default:
-      msgText = "Unknown error.";
-  }
-  //Now tell the user what happened
-  navigator.notification.alert(msgText, null, "File Error");
-}
+
 
 function onFileTransferError(e) {
   alert("Error");
