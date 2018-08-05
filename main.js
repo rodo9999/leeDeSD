@@ -20,7 +20,7 @@ var endP = '</p>';
 function leeDeSD() {
   var fileName = 'myfile.txt';    // your file name
   // var data = 'Cualquier cosa.';   // your data, could be useful JSON.stringify to convert an object to JSON string
-
+  alert("leeDeSD");
   window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory + fileName, gotFile, fail);
 }
 
@@ -30,7 +30,8 @@ function fail(e) {
 }
 
 function gotFile(fileEntry) {
-
+        alert("gotFile");
+	
 	fileEntry.file(function(file) {
 		var reader = new FileReader();
 
