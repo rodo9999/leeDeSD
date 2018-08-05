@@ -29,19 +29,20 @@ function leeDeSD() {
 
 
 function onGetFileSuccess(file) {
+  alert("onGetFileSuccess");
   var reader = new FileReader();
 
   reader.onloadend = function(e) {
-    console.log("Read end");
+    alert("Read end");
     alert(e.target.result);
   };
   
   reader.onloadstart = function(e) {
-    console.log("Read start");
+    alert("Read start");
   };
 
   reader.onloaderror = function(e) {
-    console.log("Read error: " + e.target.error.code);
+    alert("Read error: " + e.target.error.code);
   };
   
   reader.readAsText(file);
