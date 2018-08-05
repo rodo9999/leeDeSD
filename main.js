@@ -19,7 +19,7 @@ var endP = '</p>';
 
 function leeDeSD() {
   var fileName = 'myfile.txt';    // your file name
-  // var data = 'Cualquier cosa.';   // your data, could be useful JSON.stringify to convert an object to JSON string
+  // var data = 'Cualquier cosa.';   // your data, could be useful JSON.stringify to convert an objectf to JSON string
   alert("leeDeSD");
   // window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory + fileName, gotFile, fail);
     window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory, function( directoryEntry ) {
@@ -192,10 +192,10 @@ function writeFile() {
   }, onGetFileSuccess, onFileError);
 }
 
-function onGetFileSuccess(theFile) {
-  alert("onGetFileSuccess: " + theFile.name);
-  theFile.createWriter(onCreateWriterSuccess, onFileError);
-}
+// function onGetFileSuccess(theFile) {
+  // alert("onGetFileSuccess: " + theFile.name);
+  // theFile.createWriter(onCreateWriterSuccess, onFileError);
+// }
 
 function onCreateWriterSuccess(writer) {
   alert("onCreateWriterSuccess");
